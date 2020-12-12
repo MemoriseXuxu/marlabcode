@@ -1,2 +1,2 @@
-# marlabcode
+# matlacode
 Some useful Matlab Code
