@@ -5,7 +5,7 @@ function [f,fft_Amp] = calfft(fs,sample)
 % fs = 1000 ;  
 % T = 1 /fs ;
 % t = 0:T:1-T; %sampling period
-% y = 4*sin(2*pi*f0*t)+10*sin(2*pi*80*t); %the sine curve
+% y = 4*sin(2*pi*f0*t)+10*sin(2*pi*80*t);     %the sine curve
 % L = length(y) ;
 %%  Begin  %%
 sample = sample - mean(sample);
