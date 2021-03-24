@@ -2,17 +2,17 @@
 % clear
 % clc
 % close ;                             %清楚无关信息和无关变量
-%% 这个版本是计算声源在C，AB做吸声处理。
+%% 这个版本是计算声源在A，BC做吸声处理。
 %% **************读取计算数据**** %%
 freq = sheet_A ;
-P1 = complex(sheet_M,sheet_L);
-P2 = complex(sheet_K,sheet_J);
+P1 = complex(sheet_B,sheet_C);
+P2 = complex(sheet_D,sheet_E);
 
-P3 = complex(sheet_E,sheet_D);
-P4 = complex(sheet_C,sheet_B);
+P3 = complex(sheet_H,sheet_I);
+P4 = complex(sheet_F,sheet_G);
 
-P5 = complex(sheet_I,sheet_H);
-P6 = complex(sheet_G,sheet_F);
+P5 = complex(sheet_J,sheet_K);
+P6 = complex(sheet_L,sheet_M);
 % 
 % P7 = complex(sheet_N,sheet_O);
 % P8 = complex(sheet_P,sheet_Q);
@@ -26,28 +26,28 @@ area_C = 0.1193 ;                 %进口管截面面积 旧的0.1087
 area_A = 0.0620;                 %出口管截面面积 旧的0.0625
 area_B = 0.0620;
 %% *************开始计算**** %%
-%% 计算中间C，P1和P2
-fenmu_C = exp(1j*k*s_C)-exp(-1j*k*s_C) ;
+%% 计算管道Ａ，P1和P2
+fenmu_A = exp(1j*k*s_A)-exp(-1j*k*s_A) ;
 
-p_a_plus = (P1.*exp(1j*k*s_C)-P2)./(fenmu_C) ;
-p_a_minus = (P2-P1.*exp(-1j*k*s_C))./(fenmu_C) ;
-w_a_plus = 0.5.*((abs(p_a_plus)).^2).*area_C./(340*1.225);     %上游正向声波
-w_a_minus = 0.5.*((abs(p_a_minus)).^2).*area_C./(340*1.225);   %上游反向声波
+p_a_plus = (P1.*exp(1j*k*s_A)-P2)./(fenmu_A) ;
+p_a_minus = (P2-P1.*exp(-1j*k*s_A))./(fenmu_A) ;
+w_a_plus = 0.5.*((abs(p_a_plus)).^2).*area_A./(340*1.225);     %上游正向声波
+w_a_minus = 0.5.*((abs(p_a_minus)).^2).*area_A./(340*1.225);   %上游反向声波
 surface_phase = exp(1j*2*k*L) ;
 
-%% 计算管道A，P3和P4
-fenmu_A = exp(1j*k*s_A)-exp(-1j*k*s_A) ;
-p_b_plus = (P3.*exp(1j*k*s_A)-P4)./(fenmu_A) ;
-p_b_minus = (P4-P3.*exp(-1j*k*s_A))./(fenmu_A) ;
-w_b_plus = 0.5.*((abs(p_b_plus)).^2).* area_A ./(340*1.225);     %下游正向声波
-w_b_minus = 0.5.*((abs(p_b_minus)).^2).* area_A ./(340*1.225);   %下游反向声波
-
-%% 计算管道B，P5和P6
+%% 计算管道Ｂ，P3和P4
 fenmu_B = exp(1j*k*s_B)-exp(-1j*k*s_B) ;
-p_c_plus = (P5.*exp(1j*k*s_B)-P6)./(fenmu_B) ;
-p_c_minus = (P6-P5.*exp(-1j*k*s_B))./(fenmu_B) ;
-w_c_plus = 0.5.*((abs(p_c_plus)).^2).* area_B ./(340*1.225);     %下游正向声波
-w_c_minus = 0.5.*((abs(p_c_minus)).^2).* area_B ./(340*1.225);   %下游反向声波
+p_b_plus = (P3.*exp(1j*k*s_B)-P4)./(fenmu_B) ;
+p_b_minus = (P4-P3.*exp(-1j*k*s_B))./(fenmu_B) ;
+w_b_plus = 0.5.*((abs(p_b_plus)).^2).* area_B ./(340*1.225);     %下游正向声波
+w_b_minus = 0.5.*((abs(p_b_minus)).^2).* area_B ./(340*1.225);   %下游反向声波
+
+%% 计算中间管道Ｃ，P5和P6
+fenmu_C = exp(1j*k*s_C)-exp(-1j*k*s_C) ;
+p_c_plus = (P5.*exp(1j*k*s_C)-P6)./(fenmu_C) ;
+p_c_minus = (P6-P5.*exp(-1j*k*s_C))./(fenmu_C) ;
+w_c_plus = 0.5.*((abs(p_c_plus)).^2).* area_C ./(340*1.225);     %下游正向声波
+w_c_minus = 0.5.*((abs(p_c_minus)).^2).* area_C ./(340*1.225);   %下游反向声波
 
 %% 计算小管道出口的，P7和P8
 % fenmu_small  = exp(1j*k*s_small)-exp(-1j*k*s_small) ;
@@ -62,23 +62,22 @@ transmission_12 =  abs(w_b_plus ./ w_a_plus) ;
 transmission_13 =  abs(w_c_plus ./ w_a_plus) ;
 % tramsmission_14 =  abs(w_d_plus ./ w_a_plus) ;
 
-% absor = (w_up_plus+w_down_minus-w_up_minus-w_down_plus)./(w_up_plus+w_down_minus) ;    %a吸声系数，这里不确定是否为绝对值
 %% ************显示结果**** %%
 figure(2)
-plot(freq,r_a,'k','DisplayName','反射系数C'); 
+plot(freq,r_a,'k','DisplayName','反射系数A'); 
 grid on
 xlim ([0 500]);
 ylim([0 1]) ;
 title('反射系数')
 figure(3)
-plot(freq,transmission_12,'b','DisplayName','C2A透射系数');
+plot(freq,transmission_12,'b','DisplayName','A2B透射系数');
 grid on;
 xlim ([0 500]);
 ylim([0 1]) ;
 title('透射系数A2B')
 
 figure(4)
-plot(freq,transmission_13,'DisplayName','C2B透射系数');
+plot(freq,transmission_13,'DisplayName','A2C透射系数');
 xlim ([0 500]);
 ylim([0 1]) ;
 grid on;
